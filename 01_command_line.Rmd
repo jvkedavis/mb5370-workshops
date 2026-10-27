@@ -1,6 +1,6 @@
 ---
 title: "Workshop 1: Introduction to the Command Line"
-author: "Your Name"
+author: "Jake Davis"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -26,12 +26,146 @@ Replace the text below each heading with your own notes. Copy each command you r
 
 ## Basic unix commands
 
-Notes on `pwd`, `ls`, `cd` and how unix commands are put together.
+### Navigating directories
+
+The Unix command line allows users to navigate directories,
+manage files, and execute programs without a graphical interface.
+
+- `pwd` (print working directory): Displays the full path of
+  the directory I am currently working in.
+
+- `cd` (change directory): Allows me to navigate between
+  directories. For example, `cd command_line` moves into
+  the command_line folder.
+
+- `ls` (list): Displays the files and folders within the
+  current directory.
+
+### Command options
+
+Unix commands can be modified using flags to change their output.
+
+For example, `ls -lh` combines two options:
+
+- `-l`: Displays files in a detailed list format.
+- `-h`: Displays file sizes in a human-readable format.
+
+When I ran `ls -lh` in the command_line directory,
+the output was `total 0`, indicating that the directory
+currently contained no visible files.
+
+The `ls -la` command combines the long listing format (`-l`)
+with the option to display hidden files (`-a`).
+
+When I ran this command, three entries appeared:
+- `.` represents the current directory.
+- `..` represents the parent directory.
+- `.gitkeep` is a hidden file that allows Git to track
+  an otherwise empty directory.
+
+This demonstrated that `ls` does not display hidden files
+by default.
+```{bash}
+cd ~/mb5370-workshops/command_line
+pwd
+ls -lh
+ls -la
+cd ..
+pwd
+```
 
 ## Viewing and searching files
 
-Notes on `cat`, `head`, `grep` and `man`.
+### Viewing file contents
+
+The `cat` command displays the contents of a text file
+directly in the Terminal. When I ran `cat README.md`,
+it displayed the repository instructions and folder structure.
+
+The `head` command displays the beginning of a file.
+By default, it shows the first 10 lines.
+
+The `-n` option allows me to specify how many lines
+to display, such as `head -n 5 README.md`.
+
+```{bash}
+cd ~/mb5370-workshops
+cat README.md
+head README.md
+head -n 5 README.md
+```
+### Searching file contents
+
+The `grep` command searches a file for lines containing
+a specified word or pattern.
+
+For example, `grep "Workshop" README.md` searches for
+lines containing "Workshop".
+
+Adding the `-i` option makes the search case-insensitive,
+allowing both uppercase and lowercase matches.
+
+grep "Workshop" README.md
+```{bash}
+grep "Workshop" README.md
+grep -i "workshop" README.md
+```
+
+### Accessing command manuals
+
+The `man` command displays documentation for Unix commands,
+including their functions, syntax, and available options.
+
+For example, `man ls` opens the manual for the `ls` command.
+This is useful when learning unfamiliar commands or checking
+which flags are available.
+```{bash}
+man ls
+```
+```{bash}
+# man ls
+```
+
 
 ## Sequence file formats
 
-Notes on the fasta and fastq formats.
+### FASTA format
+
+FASTA is a text-based format used to store nucleotide or protein
+sequences. Each sequence begins with a header marked by `>`,
+followed by one or more lines containing the sequence.
+
+In this workshop, I created a FASTA file containing an amino
+acid sequence and used Unix commands to examine its contents.
+
+The `cat` command displayed the complete file, while `head`
+allowed me to view only the first two lines.
+
+I used `grep '^>'` to identify the FASTA header and
+`grep -n` to search for a specific amino acid sequence
+and identify its line number.
+
+### FASTQ format
+
+FASTQ is another sequence file format commonly used in genomics.
+Unlike FASTA, FASTQ stores both nucleotide sequences and their
+associated sequencing quality scores.
+
+Each FASTQ record contains four lines:
+
+1. A sequence identifier beginning with `@`.
+2. The nucleotide sequence.
+3. A separator beginning with `+`.
+4. Quality scores encoded as ASCII characters.
+
+FASTQ is particularly useful for assessing sequencing quality
+before downstream genomic analyses.
+
+```{bash}
+cd ~/mb5370-workshops/command_line
+cat test.fasta
+head -2 test.fasta
+grep '^>' test.fasta
+grep KDRNKKNSAK test.fasta
+grep -n KDRNKKNSAK test.fasta
+```
